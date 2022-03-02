@@ -1,0 +1,122 @@
+// app global css in Sass form
+
+.footerbg
+    background-color: $footercolor
+
+.logofont
+    font-family: 'Acme', sans-serif
+    font-size: 2.0rem
+    font-style: bold
+    &:hover
+        color: white
+
+// set tiptap placeholder secound line empty
+.is-empty
+    &:nth-child(2)::before
+        content: "" !important
+        float: left
+        color: #aaa
+        pointer-events: none
+        height: 0
+        font-style: normal
+.tiptap-menubar
+    border-radius: 2px !important
+    height: 55px !important
+
+.tiptap .tiptap-menubar .q-btn-dropdown, .tiptap .tiptap-menububble .q-btn-dropdown
+    height: 55px
+    font-size: 1.5rem !important
+    margin: 0 2px
+    box-shadow: none
+
+.tiptap
+    .tiptap-menubar
+        .q-btn
+            .q-icon
+                font-size: 2em
+.logofontfancy
+    -webkit-text-stroke: 1px white
+    color: #E07D63
+    font-size: 2.1rem
+    font-size: 1.7rem !important
+
+.linknostyle
+    text-decoration: none !important
+    &hover
+        text-decoration: none !important
+        color: inherit
+
+#medics
+    background-size: 100% 100%
+    background-repeat: no-repeat
+    background-position: center
+    max-height: 100%
+    width: auto
+    margin-left: auto
+    margin-right: auto
+    display: inline-flex
+
+@media (max-width &: $breakpoint-sm-min)
+    .logofont
+        font-size: 1.7rem !important
+
+.doH2
+    line-height: 1.3
+    font-size: 48px
+    font-weight: 700
+    margin-top: 2rem
+    margin: 0
+    padding: 0
+    border: 0
+    vertical-align: baseline
+    display: block
+    margin-block-start: 0.83em
+    margin-block-end: 0.83em
+    margin-inline-start: 0px
+    margin-inline-end: 0px
+    color: #333b40
+    font-feature-settings: "calt" 0
+    letter-spacing: .01em
+    -webkit-font-smoothing: antialiased
+    font-family: "Avenir Next", -apple-system, system-ui, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif
+.doH5
+    font-family: "Avenir Next", -apple-system, system-ui, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif
+    font-weight: 400
+    font-size: 24px
+    color: #333b40
+    line-height: 46px
+.doHblue
+    font-family: "Avenir Next", -apple-system, system-ui, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif
+    font-weight: 700
+    font-size: 24px
+    color: #248bd9
+    line-height: 46px
+.doCR
+    font-family: "Avenir Next", -apple-system, system-ui, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif
+    font-weight: 700
+    font-size: 20px
+    color: #333b40
+    line-height: 38px
+.doFooterHeading
+    font-family: "Avenir Next", -apple-system, system-ui, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif
+    font-weight: 700
+    font-size: 20px
+    color: #333b40
+    line-height: 48px
+.doFooterText
+    font-family: "Avenir Next", -apple-system, system-ui, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif
+    font-weight: 400
+    font-size: 20px
+    color: #333b40
+    line-height: 48px
+.text-footer
+    color: $dark
+
+.q-field--error .q-field__control 
+  background: rgb(50, 60, 62) !important
+  color: $accent !important
+
+
+.q-field--error.logginn .q-field__bottom  
+    color: #FF5C5C
+

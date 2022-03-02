@@ -1,0 +1,66 @@
+{
+  "name": "ravine",
+  "version": "0.0.1",
+  "description": "A workout planer and tracker",
+  "productName": "ravine",
+  "author": "Mats Bjørnstadjordet <matsbjornstadjordet@gmail.com>",
+  "private": true,
+  "scripts": {
+    "lint": "eslint --ext .js,.vue ./",
+    "lintfix": "eslint --ext .js,.vue --fix ./",
+    "test": "echo \"No test specified\" && exit 0",
+    "format": "prettier . --write"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.0.0",
+    "@tiptap/starter-kit": "^2.0.0-beta.171",
+    "@tiptap/vue-2": "^2.0.0-beta.75",
+    "@vue/cli-plugin-eslint": "^4.5.15",
+    "add": "^2.0.6",
+    "axios": "^0.21.1",
+    "babel-eslint": "^10.1.0",
+    "core-js": "^3.6.5",
+    "date-fns": "^2.28.0",
+    "dotenv": "^11.0.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "jwt-decode": "^3.1.2",
+    "pinia": "^2.0.11",
+    "pinia-plugin-persistedstate": "^1.2.3",
+    "prettier": "^2.5.1",
+    "quasar": "^2.0.0",
+    "quasar-tiptap": "^1.9.1",
+    "tiptap": "^1.32.2",
+    "tiptap-extensions": "^1.35.2",
+    "vee-validate": "^4.5.9",
+    "vue-i18n": "^9.0.0",
+    "vue-simple-password-meter": "^0.1.0",
+    "vuedraggable": "^2.24.3",
+    "vuex-persistedstate": "^4.1.0",
+    "yup": "^0.32.11"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.16.5",
+    "@quasar/app": "^3.0.0",
+    "eslint": "^8.8.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-html": "^6.2.0",
+    "eslint-plugin-vue": "^8.4.0",
+    "eslint-webpack-plugin": "^2.4.0"
+  },
+  "browserslist": [
+    "last 10 Chrome versions",
+    "last 10 Firefox versions",
+    "last 4 Edge versions",
+    "last 7 Safari versions",
+    "last 8 Android versions",
+    "last 8 ChromeAndroid versions",
+    "last 8 FirefoxAndroid versions",
+    "last 10 iOS versions",
+    "last 5 Opera versions"
+  ],
+  "engines": {
+    "node": ">= 12.22.1",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  }
+}
