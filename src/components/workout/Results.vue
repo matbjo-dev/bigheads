@@ -7,7 +7,6 @@
       style="width: 40px"
       @click="$router.push({name: 'workout'})"></q-btn>
     <h5>Results</h5>
-    {{ result }}
     <h6 class="q-mb-sm">
       {{ result.title }}
       <q-popup-edit v-model="result.title">
@@ -33,41 +32,35 @@
           :toolbar="[['bold', 'italic', 'strike', 'underline']]" />
       </q-popup-edit>
     </div>
-    <q-list v-if="result.data" bordered separator>
+    <q-list v-if="result.results" bordered separator>
       <q-item
-        v-for="(item, index) in result.data"
+        v-for="(item, index) in result.results"
         :key="index"
         v-ripple
         clickable>
         <q-item-section>
           <q-item-label class="q-mb-xs">
-            <b>{{ item.title }}</b></q-item-label
+            <b>{{ item.exercise.title }}</b></q-item-label
           >
           <q-item-label
-            v-for="(i, index2) in item.sets"
+            v-for="(i, index2) in item.workout_fields.setRow"
             :key="'result' + index2"
             caption
-            ><span v-if="(i.order == 1) | (i.order == 2)">
-              <li v-if="i.order == 1">
-                {{ i.result }}
-                <q-popup-edit v-model="i.result">
-                  <q-input v-model="i.result" dense autofocus counter />
+            >
+            <div>
+              <span v-for="(set, index3) in i.fields" :key="'fieldid-'+index3">
+                {{ set.score }} {{ set.unit?.title }}
+                <q-popup-edit v-model="set.score">
+                  <q-input v-model="set.score" dense autofocus counter />
                 </q-popup-edit>
-                {{ i.unit.title }}
-                x {{ item.sets[index2 + 1].result }}
-              </li>
-            </span>
-            <li v-else>
-              {{ i.result }}
-              <q-popup-edit v-model="i.result">
-                <q-input v-model="i.result" dense autofocus counter />
-              </q-popup-edit>
-              {{ i.unit.title }}
-            </li>
+                <span v-if="index3 != i.fields.length - 1">x </span>
+              </span>
+            </div>
           </q-item-label>
         </q-item-section>
       </q-item>
     </q-list>
+
     <q-btn
       label="save"
       icon="save"
@@ -78,7 +71,8 @@
 </template>
 
 <script setup>
-import {ref, onMounted, reactive} from 'vue'
+import {ref, onMounted, reactive, isRef, isReactive} from 'vue'
+import { toRefs } from '@vueuse/core'
 import {useQuasar} from 'quasar'
 import {useRouter, useRoute} from 'vue-router'
 import {api} from 'src/services/axios.js'
@@ -86,11 +80,11 @@ import useNotify from 'src/composables/notify'
 import DateInput from 'components/fields/DateInput'
 import TimeInput from 'components/fields/TimeInput'
 import { exerciseStore } from 'src/pinia/exercise'
-
 // external
 const $store = exerciseStore()
 const $q = useQuasar()
 const $router = useRouter()
+const $route = useRoute()
 
 // props
 const props = defineProps({
@@ -101,20 +95,16 @@ const props = defineProps({
 })
 
 
-const result = reactive({})
 const date_input = ref(null)
 const time_input = ref(null)
 const time_input_end = ref(null)
-onMounted(() => {
-  getActiveWorkout()
 
 
-})
+
+const result  = $store.getActiveWorkoutRefs($route.params.workoutId)
 
 
-const getActiveWorkout = () => {
-  Object.assign(result, $store.getActiveWorkout(props.workoutId))
-}
+
 onMounted(() => {
   date_input.value.setDate(result.date)
   time_input.value.setTime(result.start_time)
@@ -122,18 +112,7 @@ onMounted(() => {
 })
 
 const postResults = async () => {
-  $q.localStorage.remove('result')
-  $q.localStorage.set('workout', result)
-  result.created
-  try {
-    await api.post('workout/post/results/', result).then((response) => {
-      console.log(response)
-      useNotify('success', 'Success', 'Workout saved')
-    })
-  } catch (error) {
-    console.log(error)
-    useNotify('error', 'Error', 'Workout not saved')
-  }
+  $store.saveWorkout($route.params.workoutId)
 }
 </script>
 <style lang="sass" scoped></style>

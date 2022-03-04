@@ -1,7 +1,8 @@
 import { defineStore, acceptHMRUpdate } from 'pinia';
 import {api} from 'src/services/axios'
-import {makeOptions} from 'src/composables/helpers'
-
+import {makeOptions, createWorkoutResultForApi} from 'src/composables/helpers'
+import { toRefs, reactive } from 'vue'
+import { postWorkoutResults } from 'src/services/requests.js'
 // useStore could be anything like useUser, useCart
 // the first argument is a unique id of the store across your application
 export const exerciseStore = defineStore('exerciseStore', {
@@ -170,6 +171,9 @@ newWorkout(payload){
 getActiveWorkout(id){
   return this.activeWorkouts.find((wk)=>wk.workout_id == id)
 },
+getActiveWorkoutRefs(id){
+  return reactive(this.activeWorkouts.find((wk)=>wk.workout_id == id))
+},
 getActiveWorkoutExercise(wk_id, wk_exercise_id){
   return this.getActiveWorkout(wk_id).results.find((exercise)=>exercise.wk_exercise_id ==  wk_exercise_id)
 
@@ -228,8 +232,18 @@ getScoreValue(workout_id, wk_exercise_id, indexRow, indexField){
 },
 setScoreValue(workout_id, wk_exercise_id, indexRow, indexField, value){
   this.getActiveWorkoutExercise(workout_id, wk_exercise_id).workout_fields.setRow[indexRow].fields[indexField].score = value
+},
+async saveWorkout(workout_id){
+  const result = this.getActiveWorkout(workout_id)
+  let WorkoutSession = createWorkoutResultForApi(result)
+  await postWorkoutResults(WorkoutSession).then(
+    //this.removeActiveWorkout(workout_id)
+  )
+},
+removeActiveWorkout(workout_id){
+  const index = this.activeWorkouts.findIndex((wk)=>wk.workout_id == workout_id)
+  this.activeWorkouts.splice(index, 1)
 }
-
 // end actions
   },
 })

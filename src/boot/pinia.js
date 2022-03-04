@@ -15,6 +15,9 @@ export default boot(({ app, router }) => {
       // if not logged in, go on
       if (!$authStore.isLoggedIn ) return true
      const validToken = checkAccessToken()
-    if (!validToken) return {name: 'login'}
+    if (validToken) return true
+    to.name !== 'login'
+    return { name: 'login'}
+
   })
 })

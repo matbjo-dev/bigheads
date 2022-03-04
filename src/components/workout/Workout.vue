@@ -3,15 +3,13 @@
 
 
         <q-btn class="float-right" icon="menu" flat @click="showMenu"></q-btn>
-
         <heading-input v-model="wk.title" class="q-ml-sm q-mb-md" @input="updateTitle"></heading-input>
-        {{ $store.activeWorkouts }}
         <div class="row">
-            <date-input ref="date_input" class="q-ml-md" @update="updateStartDate"></date-input>
-            <time-input ref="time_input" class="q-ml-md"></time-input>
+            <date-input ref="date_input" class="q-ml-md" @update-date="updateStartDate"></date-input>
+            <time-input ref="time_input" class="q-ml-md" @update-time="updateStartTime"></time-input>
         </div>
-        <q-editor v-model="description" flat min-height="5rem" placeholder="Notes..." :toolbar="[['bold', 'italic', 'strike', 'underline']]" />
-        <exercise-sets :active-workout="activeWorkout" :default-unit="defaultUnit"></exercise-sets>
+        <q-editor v-model="wk.description" flat min-height="5rem" placeholder="Notes..." :toolbar="[['bold', 'italic', 'strike', 'underline']]" />
+        <exercise-sets  :results="wk.results" :workout-id="wk.wk_id" :default-unit="defaultUnit"></exercise-sets>
         <select-exercise @select-exercise="selectExercises" @show-exercise="showExercise"></select-exercise>
     </div>
 
@@ -30,6 +28,7 @@ import HeadingInput from 'components/fields/HeadingInput'
 import DateInput from 'components/fields/DateInput'
 import TimeInput from 'components/fields/TimeInput'
 import { exerciseStore } from 'src/pinia/exercise'
+import dayjs from 'dayjs'
 
 const $q = useQuasar()
 const $router = useRouter()
@@ -48,6 +47,7 @@ const wk = reactive({
   start_time: "",
   end_date: "",
   end_time: "",
+  wk_id: "",
 })
 
 const defaultUnit = ref('kg')
@@ -73,6 +73,8 @@ const createWorkout = () => {
       description: "",
       start_date: null,
       start_time: null,
+      end_date: null,
+      end_time: null,
       results: [],
       workout_id: createWorkoutId()
 
@@ -83,8 +85,21 @@ const getActiveWorkout = () => {
   const actWK = toRefs($store.activeWorkouts[workoutId.value])
   wk.title = actWK.title
   wk.description = actWK.description
+  wk.start_date = actWK.start_date
+  wk.start_time = actWK.start_time
+  wk.end_date = actWK.end_date
+  wk.end_time = actWK.end_time
+  wk.wk_id = actWK.workout_id
+  wk.results = actWK.results
+  setIntitialDateTime()
 }
 
+const setIntitialDateTime = () => {
+    wk.start_date = wk.start_date ? wk.start_date : date_input.value.getDate()
+   wk.start_time = wk.start_time ? wk.start_time : time_input.value.getTime()
+  date_input.value.setDate(wk.start_date)
+   time_input.value.setTime(wk.start_time)
+}
 
 const showExercise = () => {
     showExercises.value = true
@@ -118,23 +133,22 @@ async function selectExercises(exerciseSelected) {
     )
 }
 const updateStartDate = (val) => {
-  console.log(val)
+  wk.start_date = val
 }
-
-
-
+const updateStartTime = (val) => {
+  wk.start_time = val
+}
 
 const showMenu = () => {
     showMenux.value = true
 }
 const setDateTime = () => {
-   activeWorkout.start_date = date_input.value.getDate()
-   activeWorkout.start_time = time_input.value.getTime()
-   activeWorkout.end_time = new Date().toISOString().slice(11, 16)
+   wk.end_time = dayjs().format('HH:mm')
+   wk.end_date = dayjs().format('DD/MM/YYYY')
 }
 const endWorkout = () => {
     setDateTime()
-    $router.push({ name: 'workoutResults',  params: {workoutId: activeWorkout.workout_id} })
+    $router.push({ name: 'results',  params: {workoutId: wk.wk_id} })
 }
 
 

@@ -1,15 +1,15 @@
 <template>
 
-  <div v-if="props.activeWorkout">
+  <div v-if="props.results">
 
     <q-item
-      v-for="(row, index) in props.activeWorkout.results"
+      v-for="(row, index) in props.results"
       :key="'exercise-' + index">
       <q-item-section>
-        <menu-btn :workout-id="props.activeWorkout.workout_id" :wk-exercise-id="row.wk_exercise_id" @show-description="showExerciseDescription" @show-muscle="showMuscle"></menu-btn>
+        <menu-btn :workout-id="props.workoutId" :wk-exercise-id="row.wk_exercise_id" @show-description="showExerciseDescription" @show-muscle="showMuscle"></menu-btn>
         <q-item-label class="q-mb-md">{{ row.exercise?.title ?? "Exercise" }}</q-item-label>
         <div  class="q-gutter-y-md q-mb-md">
-           <exercise-edit-fields :default-unit="defaultUnit" :edit="row.showEdit" :set-obj="row.workout_fields" :workout-id="props.activeWorkout.workout_id" :wk-exercise-id="row.wk_exercise_id" @add-set="addSet" @make-warmup="makeWarmup" @delete-set="deleteSet" @unit-selected="unitSelected"></exercise-edit-fields>
+           <exercise-edit-fields :default-unit="defaultUnit" :edit="row.showEdit" :set-obj="row.workout_fields" :workout-id="props.workoutId" :wk-exercise-id="row.wk_exercise_id" @add-set="addSet" @make-warmup="makeWarmup" @delete-set="deleteSet" @unit-selected="unitSelected"></exercise-edit-fields>
         </div>
         </q-item-section>
         </q-item>
@@ -31,9 +31,10 @@ import DialogBox from './Dialog'
 const $store = exerciseStore()
 const emit = defineEmits(['addSet', 'addSetDouble', 'makeWarmup', 'deleteExercise'])
 const props = defineProps({
-    activeWorkout: Object,
+    results: Array,
     defaultUnit: String,
     exerciseResponse: Object,
+    workoutId: String,
 })
 
 // Variables
@@ -52,14 +53,12 @@ const showMuscle = (payload) => {
 }
 
 const createDialog = (title, description) => {
-  console.log(title, description)
   dialog.title = title
   dialog.description = description
   dialog.show = true
 }
 
 const showExerciseDescription = (payload) => {
-  console.log(payload)
   let exercise = $store.getActiveWorkoutExercise(payload.workoutId, payload.wkExerciseId).exercise
   createDialog( exercise.title, exercise.description)
 }

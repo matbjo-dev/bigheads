@@ -1,5 +1,5 @@
-import {api} from 'src/services/axios.js'
-import  authStore  from 'src/pinia/auth.js'
+import { api } from 'src/services/axios.js'
+import  { authStore }  from 'src/pinia/auth.js'
 import jwt_decode from 'jwt-decode'
 
 async function checkAccessToken() {
@@ -21,9 +21,9 @@ async function refreshToken() {
 
   // logout if expired refresh token
   if (expiredStatus === true) {
-    const store = authStore()
-    store.logout()
-    return console.log('refreshToken expired')
+    const $store = authStore()
+    $store.logout()
+    return false
   }
 
   // Refresh token is not expired, get new acess token
@@ -39,11 +39,8 @@ async function refreshToken() {
       .then((resp) => {
         const tokenRespons = resp.data.access
         localStorage.setItem('token', tokenRespons)
-        const store = authStore()
-        store.dispatch(
-          'auth/updateToken',
-          JSON.stringify(tokenRespons).slice(1, -1),
-        )
+        const $store = authStore()
+        $store.updateToken(JSON.stringify(tokenRespons).slice(1, -1))
         delete api.defaults.headers.common['Authorization']
         api.defaults.headers.common['Authorization'] =
           'JWT ' + JSON.stringify(tokenRespons).slice(1, -1)

@@ -42,8 +42,9 @@ const routes = [
             component: () => import('components/workout/Workout.vue'),
           },
           {
-            path: 'results',
-            name: 'workoutResults',
+            path: 'results/:workoutId',
+            name: 'results',
+            params: 'id',
             props: true,
             component: () => import('components/workout/Results.vue'),
           },

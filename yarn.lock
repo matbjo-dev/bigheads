@@ -1976,6 +1976,21 @@
   resolved "https://registry.npmjs.org/@vue/shared/-/shared-3.2.26.tgz#7acd1621783571b9a82eca1f041b4a0a983481d9"
   integrity sha512-vPV6Cq+NIWbH5pZu+V+2QHE9y1qfuTq49uNWw4f7FDEeZaDU2H2cx5jcUZOAKW7qTrUS4k6qZPbMy1x4N96nbA==
 
+"@vueuse/core@^7.7.0":
+  version "7.7.0"
+  resolved "https://registry.npmjs.org/@vueuse/core/-/core-7.7.0.tgz#ddc5bbc910fbe0e2eda2cc823998dcf4a13265b4"
+  integrity sha512-DS8+dg758CiWnswebYHjS05PqTtc1ZLomsDlkFjG/KC0iFRgFIsGC66AAGuSXLqWCoirp2xN6N2mkrp1aHdI7A==
+  dependencies:
+    "@vueuse/shared" "7.7.0"
+    vue-demi "*"
+
+"@vueuse/shared@7.7.0":
+  version "7.7.0"
+  resolved "https://registry.npmjs.org/@vueuse/shared/-/shared-7.7.0.tgz#4fa97e68f987c8a10bf075de0e57b986da9f1b38"
+  integrity sha512-ANzMcUnjuUPJ9nWqMAqYt8p0qon6AH5pP5/V/0RSWkwCIWZwi57ujIaxizzMwnJECUF/73BmsRmpvvtokCIrKw==
+  dependencies:
+    vue-demi "*"
+
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
   resolved "https://registry.npmjs.org/@webassemblyjs/ast/-/ast-1.11.1.tgz#2bfd767eae1a6996f432ff7e8d7fc75679c0b6a7"
@@ -6662,6 +6677,10 @@ log-update@4.0.0:
     cli-cursor "^3.1.0"
     slice-ansi "^4.0.0"
     wrap-ansi "^6.2.0"
+
+"log-with-style@https://github.com/adamschwartz/log":
+  version "0.3.0"
+  resolved "https://github.com/adamschwartz/log#e0accf8f858fa93a2bc68ddd9dd38ebedad8ce57"
 
 lower-case@^1.1.1:
   version "1.1.4"

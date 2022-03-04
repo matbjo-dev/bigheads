@@ -2,7 +2,7 @@
 {{ myval }}
   <q-input v-model="date" borderless   class="date" mask="##/##/####" @update:model-value="updateDate">
     <q-tooltip>Date of workout</q-tooltip>
-    <template #append>
+    <template #prepend>
       <q-icon name="event" class="cursor-pointer">
         <q-popup-proxy
           ref="qDateProxy"
@@ -29,16 +29,20 @@ const getDate = () => {
   return date.value
 }
 const setDate = (newDate) => {
+   newDate = dayjs(newDate, "DD/MM/YYYY")
+  return (date.value = newDate.format('DD/MM/YYYY'))
+}
+const setDateFormat = (newDate) => {
   newDate = dayjs(newDate, "YYYY-MM-DD")
   return (date.value = newDate.format('DD/MM/YYYY'))
 }
 defineExpose({
   getDate,
   setDate,
+  setDateFormat,
 })
 const $emit = defineEmits(['updateDate'])
 const updateDate = (val) => {
-  console.log(val)
   $emit('updateDate', val)
 }
 </script>
