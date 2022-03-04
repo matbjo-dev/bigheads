@@ -2,13 +2,11 @@
      <q-list bordered class="m-list">
              <q-item-label header>Sessions</q-item-label>
     <template v-for="(item, index) in result" :key="'result-'+item.id">
-            <q-item v-if="isNewMonth(item.date, index)" class="month-font justify-center"> {{ isNewMonth(item.date, index) }}</q-item>
-                <q-separator  v-if="isNewMonth(item.date, index)" />
+            <q-item v-if="isNewMonthCheck(item.start_date, index)" class="month-font justify-center"> {{ isNewMonth(item.start_date, index) }}</q-item>
+                <q-separator  v-if="isNewMonthCheck(item.start_date, index)" />
             <q-item v-ripple class="q-py-md" clickable @click="goToSession(item.id)">
-
-
                      <date-font
-                     :date="item.date"
+                     :date="item.start_date"
                      ></date-font>
                 <q-item-section class="q-pl-lg q-pl-sm-sm q-pl-xs-sm">
                     <q-item-label lines="1">{{ item.title ?? "Workout" }}</q-item-label>
@@ -28,14 +26,15 @@ import {useQuasar} from 'quasar'
 import {useRouter, useRoute} from 'vue-router'
 import {api} from 'src/services/axios.js'
 import useNotify from 'src/composables/notify'
-import DateFont from 'src/components/workout/DateFont'
+import DateFont from 'src/components/workout/DateFont2'
 import { format } from 'date-fns'
+import dayjs from 'dayjs'
 
 const $q = useQuasar()
 const $router = useRouter()
 
 const result = reactive({})
-const month = ref('')
+const month = ref('Month')
 
 onMounted(() => {
     getResults()
@@ -43,7 +42,7 @@ onMounted(() => {
 
 const getResults = async () => {
     try {
-    const response = await api.get('workout/session/?ordering=-date')
+    const response = await api.get('workout/session/?ordering=-start_date')
     Object.assign(result, response.data)
     } catch (error) {
     console.log(error)
@@ -57,17 +56,25 @@ const strip = (html) => {
    return doc.body.textContent || "";
 }
 const isNewMonth = (date, index) => {
+
     if (month.value != date_format_month(date)) {
         month.value = date_format_month(date)
         return month.value
     }
-    if (index == 0) return month.value
-    if (month.value == date_format_month(date)) return false
+    if (index == 0) {
+      month.value = date_format_month(date)
+       console.log(date_format_month(date), " index ", month.value)
+      return month.value
+    }
+}
+const isNewMonthCheck = (date, index) => {
+    if (index == 0) return true
+    if (month.value != date_format_month(date)) return true
+    else return false
 }
 const date_format_month = (value) => {
-    if (value) {
-        return String(format(new Date(value),'MMMM'))
-    }
+    return dayjs(value).format('MMMM')
+
 }
 </script>
 
